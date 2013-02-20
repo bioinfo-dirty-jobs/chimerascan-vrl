@@ -59,6 +59,23 @@ def detect_read_length(filename):
     fh.close()
     return len(seq)
 
+def get_min_max_read_lengths(fastq_files, num_samples=10000):
+    read_lengths = []
+    for filename in fastq_files:
+        f = open_compressed(filename)
+        count = 0
+        samples = 0
+        for line in f:
+            mod = count % 4
+            if mod == 1:
+                read_lengths.append(len(line))
+                samples += 1
+                if samples >= num_samples:
+                    break
+            count += 1
+        f.close()
+    return min(read_lengths), max(read_lengths)
+
 def inspect_reads(fastq_files, output_prefix, quals):
     """
     uncompresses reads, renames reads, and converts quality scores 
