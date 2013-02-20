@@ -12,9 +12,9 @@ DEB_DIR=debian/$(PKG)
 PKG_LIB_DIR=/usr/lib/$(PKG)
 BIN_WRAPPER=\
 '\#!/bin/sh\n'\
-'export PYTHONPATH=$(PKG_LIB_DIR)/lib/python2.6/site-packages:$$PYTHONPATH\n'\
-'export PATH=$(PKG_LIB_DIR)/bin:$$PATH\n'\
-"exec $${BASE_BIN}" '"$$@"'
+'export PYTHONPATH="$(PKG_LIB_DIR)/lib/python2.6/site-packages:$$PYTHONPATH"\n'\
+'export PATH="$(PKG_LIB_DIR)/bin:$$PATH"\n'\
+'exec "$$@"'
 
 %:
 	dh $@
@@ -25,11 +25,7 @@ override_dh_auto_build:
 override_dh_auto_install:
 	mkdir -p $(DEB_DIR)/usr/bin $(DEB_DIR)$(PKG_LIB_DIR)/bin
 	python2.6 setup.py install --prefix=$(DEB_DIR)$(PKG_LIB_DIR)
-	for BIN in $(BIN_LIST); do \
-		BASE_BIN=$$(basename $${BIN});\
-		install -m 755 $${BIN} $(DEB_DIR)$(PKG_LIB_DIR)/bin/$${BASE_BIN};\
-		echo $(BIN_WRAPPER) | sed 's/^ *//' > $(DEB_DIR)/usr/bin/$${BASE_BIN}$(VER);\
-	done
+	echo $(BIN_WRAPPER) | sed 's/^ *//' > $(DEB_DIR)/usr/bin/$(PKG);\
 
 override_dh_strip:
 	echo "Do not create a *dbgsym*.ddeb package."
