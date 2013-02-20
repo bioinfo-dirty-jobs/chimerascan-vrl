@@ -1,0 +1,17 @@
+Source: chimerascan-vrl0.4.5a
+Section: science
+Priority: optional
+Build-Depends: debhelper (>= 7), zlib1g-dev, python2.6-dev
+Build-Depends-Indep: python
+Maintainer: David Morton <dmorton@genome.wustl.edu>
+Standards-Version: 3.8.3
+Homepage: http://github.com/genome/chimerascan-vrl
+Vcs-Git: http://github.com/genome/chimerascan-vrl.git
+
+Package: chimerascan-vrl0.4.5a
+Architecture: amd64
+Depends: python2.6, zlib1g-dev
+X-Python-Version: >= 2.6, << 2.7
+Description: This is a modification of chimerascan
+ (http://code.google.com/p/chimerascan) that adds (among other things) support
+ for variable read lengths.
